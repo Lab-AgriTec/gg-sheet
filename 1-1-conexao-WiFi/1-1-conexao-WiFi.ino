@@ -1,10 +1,11 @@
 #include <WiFi.h>
 // ----------------------------------------------------------------------------------------------
-char ssid[] = "seu_ssid";
-char pass[] = "sua_senha";
+char ssid[] = "AP_";
+char pass[] = "salatres1";
 // ----------------------------------------------------------------------------------------------
 void setup() {
   Serial.begin(115200);
+  pinMode(2, OUTPUT);
   conexaoWiFi();  
 }
 // ----------------------------------------------------------------------------------------------
@@ -13,17 +14,19 @@ void loop() {
     Serial.println("Rede Conectada");
     Serial.println("");
   }else{
-    Serial.println("");
     Serial.println("Rede DESconectada");
     Serial.println("");
+    
     conexaoWiFi();
   }
   delay(3000);
 }
 // ----------------------------------------------------------------------------------------------
 void conexaoWiFi(){
-  Serial.println("Conectando WiFi...");
-
   WiFi.begin(ssid, pass); //--> Connect to your WiFi router
-  Serial.print(".");
+
+  digitalWrite(2, HIGH);
+  delay(500);
+  digitalWrite(2, LOW);
+  delay(500);
 }

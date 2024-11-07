@@ -1,0 +1,75 @@
+function doGet(e) {
+  // Loga os parâmetros recebidos na requisição GET no console, útil para depuração
+  Logger.log(JSON.stringify(e)); // exibe parâmetros
+  
+  // Define um valor inicial para 'result' indicando sucesso
+  var result = 'Ok';
+  
+  // Verifica se não há parâmetros definidos
+  if (e.parameter == 'undefined') {
+    // Atualiza o resultado se não houver parâmetros
+    result = 'No Parameters';
+  } else {
+    // ID da planilha que será acessada (precisa ser configurado com o ID correto)
+    var sheet_id = '1LG7cqqMP2Mr1qiVQzHYTrW3K0CRCcmujQymmInqT4hE';
+    
+    // Abre a planilha pelo ID e seleciona a aba ativa
+    var sheet = SpreadsheetApp.openById(sheet_id).getActiveSheet();
+    
+    // Calcula a próxima linha para inserir os dados, localizando a última linha existente e somando 1
+    var newRow = sheet.getLastRow() + 1;
+    
+    // Inicializa um array para armazenar os dados que serão inseridos na nova linha
+    var rowData = [];
+    
+    // Cria um objeto de data para registrar o momento da inserção
+    d = new Date();
+    
+    // Coloca a data e hora no formato de timestamp na primeira coluna (A)
+    rowData[0] = d;
+    
+    // Coloca apenas o horário local na segunda coluna (B)
+    rowData[1] = d.toLocaleTimeString();
+    
+    // Itera sobre os parâmetros recebidos para processar cada um
+    for (var param in e.parameter) {
+      // Loga cada parâmetro para verificação e depuração
+      Logger.log('In for loop, param=' + param);
+      
+      // Remove aspas da string de valor do parâmetro
+      var value = stripQuotes(e.parameter[param]);
+      
+      // Loga o nome e valor do parâmetro
+      Logger.log(param + ':' + e.parameter[param]);
+      
+      // Verifica o parâmetro específico 'contador'
+      switch (param) {
+        case 'contador':
+          // Armazena o valor de 'contador' na terceira coluna (C)
+          rowData[2] = value;
+          // Atualiza o resultado com uma mensagem de sucesso
+          result = 'Written on column A';
+          break;
+          
+        // Caso o parâmetro não seja reconhecido, define o resultado como "unsupported parameter"
+        default:
+          result = "unsupported parameter";
+      }
+    }
+    
+    // Loga a linha completa que será inserida
+    Logger.log(JSON.stringify(rowData));
+    
+    // Obtém o intervalo para a nova linha e define os dados nela
+    var newRange = sheet.getRange(newRow, 1, 1, rowData.length);
+    newRange.setValues([rowData]);
+  }
+  
+  // Retorna o resultado da operação para o usuário
+  return ContentService.createTextOutput(result);
+}
+
+// Função auxiliar que remove aspas no início e no final da string, caso existam
+function stripQuotes(value) {
+  return value.replace(/^["']|['"]$/g, "");
+}

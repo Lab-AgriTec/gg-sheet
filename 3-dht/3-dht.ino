@@ -1,9 +1,9 @@
 #include <WiFiManager.h> // https://github.com/tzapu/WiFiManager
 #include <WiFiClientSecure.h> //https://github.com/esp8266/Arduino/blob/master/libraries/ESP8266WiFi/src/WiFiClientSecure.h
-#include <DHT.h>  //https://github.com/adafruit/DHT-sensor-library
+#include <DHT.h>  //https://github.com/adafruit/DHT-sensor-library                adafruit unified sensor
 // ----------------------------------------------------------------------------------------------
+float temperatura = 0.0, umidade = 0.0;
 const int pinDatos = 13;
-float temperatura = 0, umidade = 0;
 DHT dht(pinDatos, DHT22);
 // ----------------------------------------------------------------------------------------------
 String GAS_ID = "AKfycbygteblz2FtQAJUWmwvUh40QFfSYQ6Gb7xhxq2w-GNr6bwgWpJiBgt5YtZBXX7LrWbZ"; //Código de implatação do Apps Script
@@ -32,6 +32,11 @@ void loop() {
   temperatura = dht.readTemperature();
   umidade = dht.readHumidity();
 
+  if (isnan(temperatura) || isnan(umidade)) {   //evita que o DHT retorne NaN (Not a Number)
+    temperatura = 0.0;
+    umidade = 0.0;
+  }
+
   //Impressão no Serial Monitor a cada 2s
   time_ms = millis();
   time_dif = time_ms - time_read;
@@ -48,7 +53,6 @@ void loop() {
     
     if (WiFi.status() == WL_CONNECTED){   
       update_google_sheet();   //envia os dados para o google sheet              (em GoogleSheets.h)
-      resetData();           //zera todos os dados para receber os novos dados  (em DataReset.h)
     }else{
       conexaoWiFi();      //verifica a conexão com a internet                 (em ConnWiFi.h)
     }  
@@ -72,7 +76,7 @@ void conexaoWiFi(){
 // ----------------------------------------------------------------------------------------------
 void printLeituraDHT(){
   Serial.print("Temperatura: "); Serial.println(temperatura);
-  Serial.print("Umidade: "); Serial.println(Umidade); 
+  Serial.print("Umidade: "); Serial.println(umidade); 
   Serial.println("");
 }
 // ----------------------------------------------------------------------------------------------

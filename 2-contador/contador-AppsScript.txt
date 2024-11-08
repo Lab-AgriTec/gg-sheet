@@ -1,7 +1,4 @@
 function doGet(e) {
-  // Loga os parâmetros recebidos na requisição GET no console, útil para depuração
-  Logger.log(JSON.stringify(e)); // exibe parâmetros
-  
   // Define um valor inicial para 'result' indicando sucesso
   var result = 'Ok';
   
@@ -33,14 +30,9 @@ function doGet(e) {
     
     // Itera sobre os parâmetros recebidos para processar cada um
     for (var param in e.parameter) {
-      // Loga cada parâmetro para verificação e depuração
-      Logger.log('In for loop, param=' + param);
       
       // Remove aspas da string de valor do parâmetro
       var value = stripQuotes(e.parameter[param]);
-      
-      // Loga o nome e valor do parâmetro
-      Logger.log(param + ':' + e.parameter[param]);
       
       // Verifica o parâmetro específico 'contador'
       switch (param) {
@@ -56,9 +48,6 @@ function doGet(e) {
           result = "unsupported parameter";
       }
     }
-    
-    // Loga a linha completa que será inserida
-    Logger.log(JSON.stringify(rowData));
     
     // Obtém o intervalo para a nova linha e define os dados nela
     var newRange = sheet.getRange(newRow, 1, 1, rowData.length);

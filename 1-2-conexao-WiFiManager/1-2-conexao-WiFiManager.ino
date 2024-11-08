@@ -24,7 +24,7 @@ void conexaoWiFi(){
   Serial.println("Reconectando WiFi...");
 
   WiFiManager wm; // Objeto WiFiManager
-  wm.setConfigPortalTimeout(30);
+  wm.setConfigPortalTimeout(20);
   bool res;
 
   // Se conecta automaticamente com WiFiManager

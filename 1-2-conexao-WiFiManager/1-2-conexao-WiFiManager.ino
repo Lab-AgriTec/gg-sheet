@@ -28,7 +28,7 @@ void conexaoWiFi(){
   bool res;
 
   // Se conecta automaticamente com WiFiManager
-  res = wm.autoConnect("AgriTec", "laboratorio"); // AP protegido por senha
+  res = wm.autoConnect("rede: AgriTec", "senha: laboratorio"); // AP protegido por senha
   if (!res) {
     Serial.println("Falha ao conectar...");
     delay(500);

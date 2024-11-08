@@ -1,8 +1,9 @@
 // ----------------------------------------------------------------------------------------------
 #include <WiFiManager.h> // https://github.com/tzapu/WiFiManager
+#include <WiFi.h>
 #include <WiFiClientSecure.h> // https://github.com/esp8266/Arduino/blob/master/libraries/ESP8266WiFi/src/WiFiClientSecure.h
 // ----------------------------------------------------------------------------------------------
-String GAS_ID = "AKfycbygteblz2FtQAJUWmwvUh40QFfSYQ6Gb7xhxq2w-GNr6bwgWpJiBgt5YtZBXX7LrWbZ"; //Código de implatação do Apps Script
+String GAS_ID = "AKfycbwlBwBKGfi1cZpfh--XzSqBBfVScKekO4GG8WQXa0IT5c7-gp_Pcsqxi9hYNIRberDx5A"; //Código de implatação do Apps Script
 const char* host = "script.google.com"; // Host de conexão do Apps Script
 
 // ----------------------------------------------------------------------------------------------
